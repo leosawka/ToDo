@@ -8,6 +8,10 @@
   box-shadow: 0 5px 50px rgba(32, 35, 41, .15)
 }
 
+.DarkMode .TodoItem {
+  background-color: red
+}
+
 .TodoItem-p {
   margin: 24px 0 24px 24px;
   width: calc(100% - 120px);
@@ -44,6 +48,15 @@
   position: absolute;
   top: -24px;
   right: 0
+}
+
+.DarkMode {
+  color: white;
+  background-color: #AFAFAF;
+}
+
+.DarkMode--close {
+  color: white;
 }
 
 .Icon-delete:hover {

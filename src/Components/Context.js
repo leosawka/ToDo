@@ -12,6 +12,7 @@ function TodoProvider( {children} ) {
   } = useLocalStorage('TODOS_V1', []);
   const [searchValue, setSearchValue] = useState('');
   const [openModal, setOpenModal] = useState(false);
+  const { item: darkMode, saveItem: setDarkMode } = useLocalStorage('DARK_MODE', false);
   
   const searchedTodos = todos.filter(todo => {
     return todo.text.toLowerCase().includes(searchValue.toLowerCase());
@@ -52,6 +53,8 @@ function TodoProvider( {children} ) {
       searchedTodos,
       entireTodo,
       deleteTodo,
+      darkMode,
+      setDarkMode,
       openModal,
       setOpenModal,
       addTodo

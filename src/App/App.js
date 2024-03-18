@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { TodoCounter } from '../Components/TodoCounter';
 import { TodoSearch } from '../Components/TodoSearch';
 import { TodoList } from '../Components/TodoList';
@@ -23,10 +23,31 @@ function App() {
     openModal,
     setOpenModal,
     searchValue,
+    darkMode,
+    setDarkMode
   } = useContext(TodoContext)
 
+  useEffect(() => {
+    darkMode?document.body.classList.add('Dark-mode'):document.body.classList.remove('Dark-mode');
+
+    return () => {document.body.classList.remove('Dark-mode');}
+  }, [darkMode])
+
+  const handleToggleDarkMode = () => setDarkMode(!darkMode)
+
   return (
-    <>
+    <div className={`App`}>
+      <div className='switch-div'>
+        <label className="switch">
+          <input 
+            type="checkbox" 
+            checked={darkMode}
+            onChange={handleToggleDarkMode} 
+          />
+          <span className="slider round"></span>
+        </label>
+        <p className='switch-text'>Dark Mode</p>
+      </div>
       <TodoCounter/>
       <TodoSearch/>
       <TodoList>
@@ -58,7 +79,7 @@ function App() {
           <TodoForm/> {/* Form inside the modal for creating todos */}
         </Modal>
       )}
-    </>
+    </div>
   );
 }
 

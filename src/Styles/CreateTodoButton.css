@@ -1,6 +1,6 @@
 .CreateTodoButton {
   background-color: #61DAFA;
-  box-shadow: 0px 5px 25px rgba(97, 218, 250, 0.5);
+  box-shadow: 0px 0px 5px rgba(97, 218, 250, 0.5);
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -23,7 +23,7 @@
 
 .CreateTodoButtonClicked {
   background-color: orange;
-  box-shadow: 0px 5px 25px rgba(250, 199, 97, 0.5);
+  box-shadow: 0px 0px 5px rgba(250, 199, 97, 0.5);
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -45,8 +45,10 @@
 
 .CreateTodoButton:hover {
   transform: rotate(360deg);
+  box-shadow: 0px 0px 25px rgba(97, 218, 250, 0.5);
 }
 
 .CreateTodoButtonClicked:hover{
   transform: rotate(405deg);
+  box-shadow: 0px 0px 25px rgba(250, 199, 97, 0.5);
 }
