@@ -21,10 +21,59 @@ function TodoProvider( {children} ) {
   const totalTodos = todos.length;
 
   const addTodo = (text) => {
-    const newTodos = [...todos];
-    newTodos.push({text, completed: false});
-    setTodos(newTodos);
+  const newTodos = [...todos];
+  newTodos.push({
+    text,
+    completed: false,
+    date: new Date().toISOString(),
+  });
+  setTodos(newTodos);
+};
+
+  function getGroupName(date) {
+    const now = new Date();
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const yesterdayStart = new Date(todayStart).setDate(todayStart.getDate() - 1);
+    const last7DaysStart = new Date(todayStart).setDate(todayStart.getDate() - 7);
+    const last30DaysStart = new Date(todayStart).setDate(todayStart.getDate() - 30);
+    const thisYearStart = new Date(now.getFullYear(), 0, 1);
+  
+    if (date >= todayStart) {
+      return 'Today';
+    } else if (date >= yesterdayStart) {
+      return 'Yesterday';
+    } else if (date >= last7DaysStart) {
+      return 'Last 7 Days';
+    } else if (date >= last30DaysStart) {
+      return 'Last 30 Days';
+    } else if (date >= thisYearStart) {
+      return 'This Year';
+    } else {
+      return date.getFullYear().toString();
+    }
   }
+  
+  const groupTodosByDate = (todos) => {
+    const groups = todos.reduce((acc, todo) => {
+      const todoDate = new Date(todo.date);
+  
+      if (isNaN(todoDate.getTime())) {
+        return acc;
+      }
+  
+      const groupName = getGroupName(todoDate);
+      if (!acc[groupName]) {
+        acc[groupName] = [];
+      }
+      acc[groupName].push(todo);
+      return acc;
+    }, {});
+  
+    return groups;
+  };
+  
+  
+  const groupedTodos = groupTodosByDate(todos);
 
   const entireTodo = (index) => {
     const newTodos = [...todos];
@@ -52,12 +101,13 @@ function TodoProvider( {children} ) {
       setSearchValue,
       searchedTodos,
       entireTodo,
+      addTodo,
       deleteTodo,
       darkMode,
       setDarkMode,
       openModal,
       setOpenModal,
-      addTodo
+      groupedTodos
     }}>
       { children }
     </TodoContext.Provider>

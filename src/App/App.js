@@ -10,6 +10,7 @@ import { TodosLoading } from '../Components/TodosLoading';
 import { TodosError } from '../Components/TodosError';
 import { TodoContext } from '../Components/Context';
 import { TodoForm } from '../Components/TodoForm';
+import { TodoGroups } from '../Components/TodoGroups';
 import { Modal } from '../Components/Modal';
 import '../Styles/App.css';
 
@@ -24,7 +25,8 @@ function App() {
     setOpenModal,
     searchValue,
     darkMode,
-    setDarkMode
+    setDarkMode,
+    groupedTodos
   } = useContext(TodoContext)
 
   useEffect(() => {
@@ -62,15 +64,17 @@ function App() {
         {!loading && !searchValue && searchedTodos.length === 0 && <EmptyTodos/>}
         {!loading && searchValue && searchedTodos.length === 0 && (
           <SearchNotMatch/>
-        )}
+          )}
         {searchedTodos.map((todo, index) => ( /* Iteration over searchedTodos to create TodoItem components */
-          <TodoItem 
-            key={index} 
-            text={todo.text} 
-            completed={todo.completed}
-            onComplete={() => entireTodo(todo.text)}
-            onDelete={() => deleteTodo(todo.text)}
-          />
+          <TodoGroups groups={groupedTodos}/>
+          // Old version
+          // <TodoItem 
+          //   key={index} 
+          //   text={todo.text} 
+          //   completed={todo.completed}
+          //   onComplete={() => entireTodo(todo.text)}
+          //   onDelete={() => deleteTodo(todo.text)}
+          // />
         ))}
       </TodoList>
       <CreateTodoButton openModal={openModal} setOpenModal={setOpenModal}/> {/* Button to create new todos */}
