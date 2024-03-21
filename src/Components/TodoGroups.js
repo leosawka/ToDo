@@ -21,8 +21,6 @@ const dark = {
 
 function TodoGroups({ groups }) {
   const { darkMode } = useContext(TodoContext)
-  const groupOrder = ['Today', 'Yesterday', 'Last 7 Days', 'Last 30 Days', 'This Year'];
-  // const sortedGroupKeys = [...groupOrder, ...Object.keys(groups).filter(key => !groupOrder.includes(key))];
   return (
     <div className="TodoGroups">
       {Object.entries(groups).map(([groupTitle, todos]) => (
