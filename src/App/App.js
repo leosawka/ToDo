@@ -64,18 +64,8 @@ function App() {
         {!loading && !searchValue && searchedTodos.length === 0 && <EmptyTodos/>}
         {!loading && searchValue && searchedTodos.length === 0 && (
           <SearchNotMatch/>
-          )}
-        {searchedTodos.map((todo, index) => ( /* Iteration over searchedTodos to create TodoItem components */
-          <TodoGroups groups={groupedTodos}/>
-          // Old version
-          // <TodoItem 
-          //   key={index} 
-          //   text={todo.text} 
-          //   completed={todo.completed}
-          //   onComplete={() => entireTodo(todo.text)}
-          //   onDelete={() => deleteTodo(todo.text)}
-          // />
-        ))}
+        )}
+        <TodoGroups groups={groupedTodos}/>
       </TodoList>
       <CreateTodoButton openModal={openModal} setOpenModal={setOpenModal}/> {/* Button to create new todos */}
       {openModal && ( /* Conditional rendering for modal component */
