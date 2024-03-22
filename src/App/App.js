@@ -1,8 +1,7 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { TodoCounter } from '../Components/TodoCounter';
 import { TodoSearch } from '../Components/TodoSearch';
 import { TodoList } from '../Components/TodoList';
-import { TodoItem } from '../Components/TodoItem';
 import { CreateTodoButton } from '../Components/CreateTodoButton';
 import { EmptyTodos } from '../Components/EmptyTodos';
 import { SearchNotMatch } from '../Components/SearchNotMatch';
@@ -19,8 +18,6 @@ function App() {
   const {loading,
     error,
     searchedTodos,
-    entireTodo,
-    deleteTodo,
     openModal,
     setOpenModal,
     searchValue,
@@ -65,15 +62,7 @@ function App() {
         {!loading && searchValue && searchedTodos.length === 0 && (
           <SearchNotMatch/>
         )}
-        {searchedTodos.map((todo, index) => ( /* Iteration over searchedTodos to create TodoItem components */
-          <TodoItem 
-            key={index} 
-            text={todo.text} 
-            completed={todo.completed}
-            onComplete={() => entireTodo(todo.text)}
-            onDelete={() => deleteTodo(todo.text)}
-          />
-        ))}
+        <TodoGroups groups={groupedTodos}/>
       </TodoList>
       <CreateTodoButton openModal={openModal} setOpenModal={setOpenModal}/> {/* Button to create new todos */}
       {openModal && ( /* Conditional rendering for modal component */

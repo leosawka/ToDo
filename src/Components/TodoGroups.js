@@ -20,14 +20,20 @@ const dark = {
 
 
 function TodoGroups({ groups }) {
-  const { darkMode } = useContext(TodoContext)
+  const { darkMode, entireTodo, deleteTodo } = useContext(TodoContext)
   return (
     <div className="TodoGroups">
       {Object.entries(groups).map(([groupTitle, todos]) => (
         <div key={groupTitle}>
-          <p style={darkMode? dark : titleStyle}>{groupTitle}</p>
-          {todos.map((todo, index) => (
-            <TodoItem key={index} text={todo.text} completed={todo.completed}/>
+          <p style={darkMode ? dark : titleStyle}>{groupTitle}</p>
+          {todos.map((todo) => (
+            <TodoItem 
+              text={todo.text}
+              completed={todo.completed}
+              onComplete={() => entireTodo(todo.text)}
+              onDelete={() => deleteTodo(todo.text)}
+              creationDate={todo.date}
+            />
           ))}
         </div>
       ))}

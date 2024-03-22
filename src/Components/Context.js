@@ -54,13 +54,24 @@ function TodoProvider( {children} ) {
   }
   
   const groupTodosByDate = (todos) => {
+    const sortGroupKeys = (groups) => {
+      const groupOrder = ['Today', 'Yesterday', 'Last 7 Days', 'Last 30 Days', 'This Year'];
+      return Object.keys(groups).sort((a, b) => {
+        let indexOfA = groupOrder.indexOf(a);
+        let indexOfB = groupOrder.indexOf(b);
+  
+        if (indexOfA === -1) indexOfA = parseInt(a, 10);
+        if (indexOfB === -1) indexOfB = parseInt(b, 10);
+  
+        return indexOfB - indexOfA;
+      });
+    };
     const groups = todos.reduce((acc, todo) => {
       const todoDate = new Date(todo.date);
-  
+
       if (isNaN(todoDate.getTime())) {
         return acc;
       }
-  
       const groupName = getGroupName(todoDate);
       if (!acc[groupName]) {
         acc[groupName] = [];
@@ -68,12 +79,19 @@ function TodoProvider( {children} ) {
       acc[groupName].push(todo);
       return acc;
     }, {});
-  
-    return groups;
+
+    const sortedKeys = sortGroupKeys(groups);
+
+    const sortedGroups = sortedKeys.reduce((acc, key) => {
+      acc[key] = groups[key];
+      return acc;
+    }, {});
+
+    return sortedGroups;
   };
   
   
-  const groupedTodos = groupTodosByDate(todos);
+  const groupedTodos = groupTodosByDate(searchedTodos);;
 
   const entireTodo = (index) => {
     const newTodos = [...todos];
@@ -95,6 +113,7 @@ function TodoProvider( {children} ) {
     <TodoContext.Provider value={{
       loading,
       error,
+      todos,
       completedTodos,
       totalTodos,
       searchValue,

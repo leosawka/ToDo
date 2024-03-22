@@ -6,27 +6,31 @@ function useLocalStorage(itemName, initialValue){
   const [error, setError] = useState(false)
   
   // Effect to perform local storage actions with delay and error handling.
-  useEffect(() => {
-    setTimeout(() => {
-      try {
-        const localStorageItem = localStorage.getItem(itemName)
-  
-        let parsedItem;
-  
-        if(!localStorageItem){
-          localStorage.setItem(itemName, JSON.stringify(initialValue));
-          parsedItem = initialValue;
-        } else {
-          parsedItem = JSON.parse(localStorageItem);
-          setItem(parsedItem)
-        }
-        setLoading(false)
-      } catch (error) {
-        setLoading(false)
-        setError(error)
+useEffect(() => {
+  setTimeout(() => {
+    try {
+      let parsedItem;
+
+      const localStorageItem = localStorage.getItem(itemName);
+      if (!localStorageItem) {
+        localStorage.setItem(itemName, JSON.stringify(initialValue));
+        parsedItem = initialValue;
+      } else {
+        parsedItem = JSON.parse(localStorageItem);
+        parsedItem = parsedItem.map(todo => ({
+          ...todo,
+          date: todo.date || new Date().toISOString(),
+        }));
       }
-    }, 2000)
-  }, [])
+
+      setItem(parsedItem);
+      setLoading(false);
+    } catch (error) {
+      setError(error);
+      setLoading(false);
+    }
+  }, 1000);
+}, []);
   
 
   // Function to save the item back to local storage and update the state.
